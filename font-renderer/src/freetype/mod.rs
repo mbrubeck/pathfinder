@@ -94,6 +94,7 @@ impl<FK> FontContext<FK> where FK: Clone + Hash + Eq + Ord {
                     let mut face = Face {
                         face: face_ptr,
                         bytes: Some(bytes),
+                        font_index,
                     };
                     if result == 0 && !face.face.is_null() {
                         entry.insert(face);
@@ -124,6 +125,7 @@ impl<FK> FontContext<FK> where FK: Clone + Hash + Eq + Ord {
                     let mut face = Face {
                         face: face_ptr,
                         bytes: None,
+                        font_index: 0,
                     };
                     if result == 0 && !face.face.is_null() {
                         entry.insert(face);
@@ -353,8 +355,8 @@ impl<FK> FontContext<FK> where FK: Clone + Hash + Eq + Ord {
 
 pub struct Face {
     face: FT_Face,
-    #[allow(dead_code)]
     bytes: Option<Arc<Vec<u8>>>,
+    font_index: u32,
 }
 
 impl Face {
@@ -364,6 +366,10 @@ impl Face {
 
     pub fn as_bytes(&self) -> Option<&Arc<Vec<u8>>> {
         self.bytes.as_ref()
+    }
+
+    pub fn font_index(&self) -> u32 {
+        self.font_index
     }
 }
 
