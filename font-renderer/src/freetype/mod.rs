@@ -136,6 +136,10 @@ impl<FK> FontContext<FK> where FK: Clone + Hash + Eq + Ord {
         }
     }
 
+    pub fn get_font(&self, font_key: &FK) -> Option<&Face> {
+        self.faces.get(font_key)
+    }
+
     /// Unloads the font with the given font key from memory.
     /// 
     /// If the font isn't loaded, does nothing.
@@ -347,10 +351,20 @@ impl<FK> FontContext<FK> where FK: Clone + Hash + Eq + Ord {
     }
 }
 
-struct Face {
+pub struct Face {
     face: FT_Face,
     #[allow(dead_code)]
     bytes: Option<Arc<Vec<u8>>>,
+}
+
+impl Face {
+    pub fn as_native(&self) -> FT_Face {
+        self.face
+    }
+
+    pub fn as_bytes(&self) -> Option<&Arc<Vec<u8>>> {
+        self.bytes.as_ref()
+    }
 }
 
 impl Drop for Face {
