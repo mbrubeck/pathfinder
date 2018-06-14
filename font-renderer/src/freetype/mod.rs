@@ -28,7 +28,7 @@ use std::ptr;
 use std::slice;
 use std::sync::Arc;
 
-use self::fixed::{FromFtF26Dot6, ToFtF26Dot6};
+pub use self::fixed::{FromFtF26Dot6, ToFtF26Dot6};
 use self::outline::Outline;
 use {FontInstance, GlyphDimensions, GlyphImage, GlyphKey};
 
